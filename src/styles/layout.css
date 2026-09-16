@@ -1,0 +1,245 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 249, 252, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-container {
+  width: min(var(--max), calc(100% - 2rem));
+  margin: 0 auto;
+  min-height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--heading);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--rose);
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: 1.15rem;
+}
+
+.logo-text {
+  font-size: 0.95rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem 1.05rem;
+  margin-left: auto;
+}
+
+.nav-links a,
+.nav-dropdown-toggle {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: none;
+  border: 0;
+  padding: 0.4rem 0.15rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nav-links a.active,
+.nav-links a:hover,
+.nav-dropdown-toggle:hover,
+.nav-dropdown-toggle[aria-expanded='true'] {
+  color: var(--rose-dark);
+}
+
+.nav-dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  left: 0;
+  min-width: 240px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 0.45rem;
+  display: none;
+}
+
+.nav-dropdown.open .dropdown-menu,
+.nav-dropdown:hover .dropdown-menu,
+.nav-dropdown:focus-within .dropdown-menu {
+  display: grid;
+}
+
+.dropdown-menu a {
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu a.active {
+  background: var(--rose-light);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.nav-user {
+  font-size: 0.85rem;
+  color: var(--muted);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menu-toggle {
+  display: none;
+  margin-left: auto;
+  border: 1px solid var(--border);
+  background: var(--white);
+  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+}
+
+.mobile-panel {
+  display: none;
+}
+
+.footer {
+  background: var(--heading);
+  color: #f4ecef;
+  margin-top: 4rem;
+  padding: 3.2rem 0 1.4rem;
+}
+
+.footer a {
+  color: #f4ecef;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--rose-light);
+}
+
+.footer-container {
+  width: min(var(--max), calc(100% - 2.5rem));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.footer .logo-mark {
+  background: var(--rose);
+}
+
+.footer-tagline {
+  font-style: italic;
+  color: var(--rose-light);
+  margin-bottom: 0.6rem;
+}
+
+.footer-description,
+.footer-bottom p {
+  color: #d7c9d0;
+  font-size: 0.95rem;
+}
+
+.footer-links {
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+}
+
+.footer-links h3 {
+  color: var(--white);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.footer-bottom {
+  width: min(var(--max), calc(100% - 2.5rem));
+  margin: 2.2rem auto 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .nav-links,
+  .nav-actions {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: grid;
+    place-items: center;
+  }
+
+  .mobile-panel.open {
+    display: grid;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem 1.1rem;
+    border-top: 1px solid var(--border);
+    background: var(--white);
+  }
+
+  .mobile-panel a,
+  .mobile-panel button.linkish {
+    text-align: left;
+    padding: 0.55rem 0.2rem;
+    color: var(--text);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .footer-container,
+  .footer-bottom {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+}
