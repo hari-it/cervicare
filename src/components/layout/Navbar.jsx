@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import Button from '../ui/Button'
+import NotificationBell from '../notifications/NotificationBell'
 
 const learnLinks = [
   { to: '/learn', label: 'About Cervical Cancer' },
@@ -106,6 +107,8 @@ function Navbar() {
             </>
           )}
         </div>
+
+        {user ? <NotificationBell user={user} /> : null}
 
         <button
           type="button"

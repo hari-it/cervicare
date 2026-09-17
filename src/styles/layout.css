@@ -118,6 +118,123 @@
   white-space: nowrap;
 }
 
+.notification-control {
+  position: relative;
+}
+
+.notification-bell {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--heading);
+  cursor: pointer;
+  font-size: 1.05rem;
+}
+
+.notification-bell:hover,
+.notification-bell[aria-expanded='true'] {
+  border-color: var(--rose);
+  background: var(--rose-light);
+}
+
+.notification-count {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding: 0 0.2rem;
+  border-radius: 999px;
+  background: var(--rose-dark);
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.15rem;
+}
+
+.notification-panel {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  right: 0;
+  width: min(360px, calc(100vw - 2rem));
+  max-height: 460px;
+  overflow: auto;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  z-index: 70;
+}
+
+.notification-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.1rem 0.1rem 0.65rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.notification-panel-heading .button {
+  padding: 0.25rem 0.35rem;
+  font-size: 0.75rem;
+}
+
+.notification-list {
+  display: grid;
+  gap: 0.4rem;
+  padding-top: 0.5rem;
+}
+
+.notification-item {
+  display: grid;
+  gap: 0.28rem;
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.notification-item.unread {
+  border-color: var(--rose-light);
+  background: var(--bg);
+}
+
+.notification-item:hover {
+  border-color: var(--rose);
+}
+
+.notification-item-title {
+  color: var(--heading);
+  font-weight: 800;
+}
+
+.notification-item small,
+.notification-empty,
+.notification-error {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.notification-error {
+  color: #9b3048;
+  margin: 0.65rem 0 0;
+}
+
+.notification-empty {
+  padding: 1.3rem 0.5rem 0.6rem;
+  text-align: center;
+}
+
 .menu-toggle {
   display: none;
   margin-left: auto;
@@ -209,6 +326,14 @@
   .nav-links,
   .nav-actions {
     display: none;
+  }
+
+  .notification-control {
+    margin-left: auto;
+  }
+
+  .navbar-container > .notification-control {
+    margin-left: auto;
   }
 
   .menu-toggle {
