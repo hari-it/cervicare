@@ -22,7 +22,7 @@ export async function getSession() {
 
 export async function getProfile(user) {
   if (!supabase || !user) return null
-  const { data, error } = await supabase.from('profiles').select('full_name').eq('id', user.id).maybeSingle()
+  const { data, error } = await supabase.from('profiles').select('full_name, role').eq('id', user.id).maybeSingle()
   if (error) throw error
   if (data) return data
 
@@ -31,10 +31,29 @@ export async function getProfile(user) {
   const { data: created, error: createError } = await supabase
     .from('profiles')
     .insert({ id: user.id, full_name: fullName })
-    .select('full_name')
+    .select('full_name, role')
     .single()
   if (createError) throw createError
   return created
+}
+
+export async function getAccessState(user) {
+  if (!supabase || !user) return { role: null, hospitalStatus: 'none', isAdmin: false, isHospitalVerified: false }
+  const [{ data: reviewer, error: reviewerError }, { data: representations, error: representationsError }] = await Promise.all([
+    supabase.rpc('support_is_reviewer'),
+    supabase.from('hospital_representatives').select('status, hospitals(verification_status)').eq('user_id', user.id),
+  ])
+  if (reviewerError) throw reviewerError
+  if (representationsError) throw representationsError
+  const isAdmin = reviewer === true
+  const isHospitalVerified = (representations || []).some((item) => item.status === 'verified' && item.hospitals?.verification_status === 'verified')
+  const hasPendingHospital = (representations || []).some((item) => item.status === 'pending' || item.hospitals?.verification_status === 'pending')
+  return {
+    role: isAdmin ? 'admin' : isHospitalVerified ? 'hospital' : null,
+    hospitalStatus: isHospitalVerified ? 'verified' : hasPendingHospital ? 'pending' : 'none',
+    isAdmin,
+    isHospitalVerified,
+  }
 }
 
 export function onAuthStateChange(callback) {
