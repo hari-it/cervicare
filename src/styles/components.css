@@ -263,3 +263,57 @@
   font-size: 0.92rem;
   margin-bottom: 0.8rem;
 }
+
+.account-type-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 1.35rem 0 1.25rem;
+}
+
+.account-type-fieldset legend {
+  color: var(--heading);
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+}
+
+.account-type-options {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.account-type-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.8rem 0.85rem;
+  cursor: pointer;
+  background: var(--white);
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.account-type-option:hover,
+.account-type-option.selected {
+  border-color: var(--rose);
+  background: var(--rose-light);
+}
+
+.account-type-option input {
+  accent-color: var(--rose-dark);
+  margin-top: 0.2rem;
+}
+
+.account-type-option span {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.account-type-option strong {
+  color: var(--heading);
+}
+
+.account-type-option small {
+  color: var(--muted);
+  line-height: 1.4;
+}

@@ -7,6 +7,7 @@ function AuthForm({ mode, onSubmit, error, loading }) {
   const [fullName, setFullName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [accountType, setAccountType] = useState('')
   const [localError, setLocalError] = useState('')
   const isSignup = mode === 'signup'
 
@@ -15,6 +16,10 @@ function AuthForm({ mode, onSubmit, error, loading }) {
     setLocalError('')
     if (isSignup && !fullName.trim()) {
       setLocalError('Please enter your full name.')
+      return
+    }
+    if (isSignup && !accountType) {
+      setLocalError('Please select an account type.')
       return
     }
     if (!email.trim() || !password || (isSignup && !confirmPassword)) {
@@ -33,7 +38,7 @@ function AuthForm({ mode, onSubmit, error, loading }) {
       setLocalError('Passwords do not match.')
       return
     }
-    onSubmit({ email: email.trim(), password, fullName: fullName.trim() })
+    onSubmit({ email: email.trim(), password, fullName: fullName.trim(), accountType })
   }
 
   return (
@@ -86,6 +91,26 @@ function AuthForm({ mode, onSubmit, error, loading }) {
             required
           />
         </div>
+      ) : null}
+      {isSignup ? (
+        <fieldset className="account-type-fieldset">
+          <legend>What type of account are you creating?</legend>
+          <div className="account-type-options">
+            {[
+              ['patient', 'Patient', 'Request and track personal support cases'],
+              ['hospital', 'Hospital / Hospital Representative', 'Register a hospital for independent verification'],
+              ['donor', 'Donor', 'Support approved patient cases after authorization'],
+            ].map(([value, label, description]) => (
+              <label key={value} className={`account-type-option ${accountType === value ? 'selected' : ''}`}>
+                <input type="radio" name="account-type" value={value} checked={accountType === value} onChange={(event) => setAccountType(event.target.value)} />
+                <span>
+                  <strong>{label}</strong>
+                  <small>{description}</small>
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
       ) : null}
       <Button type="submit" disabled={loading}>
         {loading ? 'Please wait…' : isSignup ? 'Create account' : 'Log in'}
