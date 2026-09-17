@@ -5,12 +5,25 @@ export const AUTH_NOT_CONNECTED =
 
 function friendlyAuthError(error, fallback) {
   const message = String(error?.message || '').toLowerCase()
+  const code = String(error?.code || '').toLowerCase()
   if (message.includes('invalid login credentials')) return 'The email or password is incorrect.'
   if (message.includes('user already registered')) return 'An account with this email already exists.'
   if (message.includes('email not confirmed')) return 'Please confirm your email before logging in.'
   if (message.includes('password')) return 'Please choose a valid password and try again.'
-  if (message.includes('email')) return 'Please enter a valid email address.'
-  return fallback
+  if (code === 'email_address_invalid' || message.includes('invalid email') || message.includes('invalid email address')) {
+    return 'Please enter a valid email address.'
+  }
+  return error?.message ? `${fallback} (${error.message})` : fallback
+}
+
+function logSignupError(error, stage) {
+  console.error('[CERVICARE signup error]', {
+    stage,
+    name: error?.name,
+    message: error?.message,
+    code: error?.code,
+    status: error?.status,
+  })
 }
 
 export async function getSession() {
@@ -35,6 +48,12 @@ export async function getProfile(user) {
     .single()
   if (createError) throw createError
   return created
+}
+
+export async function requestDonorAccess() {
+  if (!isSupabaseConfigured || !supabase) throw new Error(AUTH_NOT_CONNECTED)
+  const { error } = await supabase.rpc('request_donor_access')
+  if (error) throw error
 }
 
 export async function getAccessState(user) {
@@ -70,17 +89,23 @@ export async function signIn(email, password) {
   return data
 }
 
-export async function signUp(email, password, fullName) {
+export async function signUp(email, password, fullName, accountType) {
   if (!isSupabaseConfigured) {
     throw new Error(AUTH_NOT_CONNECTED)
   }
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { full_name: fullName } },
+    options: { data: { full_name: fullName, account_type: accountType } },
   })
-  if (error) throw new Error(friendlyAuthError(error, 'Unable to create an account. Please try again.'))
-  if (data.session && data.user) await getProfile(data.user)
+  if (error) {
+    logSignupError(error, 'supabase.auth.signUp')
+    throw new Error(friendlyAuthError(error, 'Unable to create an account. Please try again.'))
+  }
+  if (data.session && data.user) {
+    await getProfile(data.user)
+    if (accountType === 'donor') await requestDonorAccess()
+  }
   return data
 }
 

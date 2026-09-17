@@ -84,9 +84,10 @@ function Navbar() {
               <Button size="sm" variant="ghost" to="/dashboard">
                 Dashboard
               </Button>
-              {isAdmin || (role === 'hospital' && isHospitalVerified) ? <Button size="sm" variant="ghost" to="/hospital-verification">Hospital portal</Button> : null}
-              {isAdmin || role === 'patient' ? <Button size="sm" variant="ghost" to="/support-case">Support case</Button> : null}
-              {isAdmin || role === 'donor' ? <Button size="sm" variant="ghost" to="/donor-portal">Donor portal</Button> : null}
+              {isAdmin ? <Button size="sm" variant="ghost" to="/admin">Admin Dashboard</Button> : null}
+              {!isAdmin && role === 'hospital' && isHospitalVerified ? <Button size="sm" variant="ghost" to="/hospital-verification">Hospital portal</Button> : null}
+              {!isAdmin && role === 'patient' ? <Button size="sm" variant="ghost" to="/support-case">Support case</Button> : null}
+              {!isAdmin && role === 'donor' ? <Button size="sm" variant="ghost" to="/donor-portal">Donor portal</Button> : null}
               <span className="nav-user" title={user.email}>
                 {profile?.full_name?.trim() || user.email}
               </span>
@@ -132,9 +133,10 @@ function Navbar() {
         {user ? (
           <>
             <NavLink to="/dashboard">Dashboard</NavLink>
-            {isAdmin || (role === 'hospital' && isHospitalVerified) ? <NavLink to="/hospital-verification">Hospital portal</NavLink> : null}
-            {isAdmin || role === 'patient' ? <NavLink to="/support-case">Support case</NavLink> : null}
-            {isAdmin || role === 'donor' ? <NavLink to="/donor-portal">Donor portal</NavLink> : null}
+            {isAdmin ? <NavLink to="/admin">Admin Dashboard</NavLink> : null}
+            {!isAdmin && role === 'hospital' && isHospitalVerified ? <NavLink to="/hospital-verification">Hospital portal</NavLink> : null}
+            {!isAdmin && role === 'patient' ? <NavLink to="/support-case">Support case</NavLink> : null}
+            {!isAdmin && role === 'donor' ? <NavLink to="/donor-portal">Donor portal</NavLink> : null}
             <button type="button" className="linkish" onClick={handleSignOut}>
               Sign out
             </button>

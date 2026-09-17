@@ -17,7 +17,7 @@ function SignupPage() {
     setNotice('')
     setLoading(true)
     try {
-      const data = await signUp(email, password, fullName)
+      const data = await signUp(email, password, fullName, accountType)
       if (data?.session) {
         if (accountType === 'hospital') {
           navigate('/hospital-registration')

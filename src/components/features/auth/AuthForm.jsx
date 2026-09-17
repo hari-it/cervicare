@@ -14,9 +14,10 @@ function AuthForm({ mode, onSubmit, error, loading }) {
   function handleSubmit(event) {
     event.preventDefault()
     setLocalError('')
-    const submittedEmail = event.currentTarget.elements.email?.value.trim() || ''
-    const submittedPassword = event.currentTarget.elements.password?.value || ''
-    const submittedConfirmPassword = event.currentTarget.elements['confirm-password']?.value || ''
+    const formData = new FormData(event.currentTarget)
+    const submittedEmail = String(formData.get('email') || '').trim()
+    const submittedPassword = String(formData.get('password') || '')
+    const submittedConfirmPassword = String(formData.get('confirm-password') || '')
     if (isSignup && !fullName.trim()) {
       setLocalError('Please enter your full name.')
       return
@@ -89,6 +90,7 @@ function AuthForm({ mode, onSubmit, error, loading }) {
           <label htmlFor="confirm-password">Confirm password</label>
           <input
             id="confirm-password"
+            name="confirm-password"
             type="password"
             autoComplete="new-password"
             value={confirmPassword}

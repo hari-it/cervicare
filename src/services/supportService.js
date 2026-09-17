@@ -114,6 +114,18 @@ export async function getReviewerCases(userId) {
   return data || []
 }
 
+export async function getPublishedCaseCount(userId) {
+  assertSupportConnection(userId)
+  const { count, error } = await supabase
+    .from('patient_cases')
+    .select('id', { count: 'exact', head: true })
+    .eq('case_status', 'published')
+    .eq('hospital_verification_status', 'verified')
+    .eq('admin_verification_status', 'approved')
+  if (error) throw error
+  return count || 0
+}
+
 export async function reviewPatientCase(caseId, decision) {
   if (!isSupabaseConfigured || !supabase) throw new Error('Case review is unavailable.')
   const { error } = await supabase.rpc('review_patient_case', {

@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import Layout from '../components/layout/Layout'
 import AboutPage from '../pages/AboutPage'
+import AdminPage from '../pages/AdminPage'
 import AwarenessJourneyPage from '../pages/AwarenessJourneyPage'
 import DashboardPage from '../pages/DashboardPage'
 import DonorPortalPage from '../pages/DonorPortalPage'
@@ -36,6 +37,7 @@ function AppRouter() {
         <Route path="/self-check" element={<SelfCheckPage />} />
         <Route path="/find-care" element={<FindCarePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/admin" element={<RouteGuard access="admin"><AdminPage /></RouteGuard>} />
         <Route path="/awareness-journey" element={<AwarenessJourneyPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/donor-portal" element={<RouteGuard access="donor"><DonorPortalPage /></RouteGuard>} />
