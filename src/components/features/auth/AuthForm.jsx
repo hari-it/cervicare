@@ -14,6 +14,9 @@ function AuthForm({ mode, onSubmit, error, loading }) {
   function handleSubmit(event) {
     event.preventDefault()
     setLocalError('')
+    const submittedEmail = event.currentTarget.elements.email?.value.trim() || ''
+    const submittedPassword = event.currentTarget.elements.password?.value || ''
+    const submittedConfirmPassword = event.currentTarget.elements['confirm-password']?.value || ''
     if (isSignup && !fullName.trim()) {
       setLocalError('Please enter your full name.')
       return
@@ -22,23 +25,23 @@ function AuthForm({ mode, onSubmit, error, loading }) {
       setLocalError('Please select an account type.')
       return
     }
-    if (!email.trim() || !password || (isSignup && !confirmPassword)) {
+    if (!submittedEmail || !submittedPassword || (isSignup && !submittedConfirmPassword)) {
       setLocalError('Please complete all required fields.')
       return
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(submittedEmail)) {
       setLocalError('Please enter a valid email address.')
       return
     }
-    if (password.length < 8) {
+    if (submittedPassword.length < 8) {
       setLocalError('Use a password of at least 8 characters.')
       return
     }
-    if (isSignup && password !== confirmPassword) {
+    if (isSignup && submittedPassword !== submittedConfirmPassword) {
       setLocalError('Passwords do not match.')
       return
     }
-    onSubmit({ email: email.trim(), password, fullName: fullName.trim(), accountType })
+    onSubmit({ email: submittedEmail, password: submittedPassword, fullName: fullName.trim(), accountType })
   }
 
   return (
@@ -61,6 +64,7 @@ function AuthForm({ mode, onSubmit, error, loading }) {
         <label htmlFor="email">Email</label>
         <input
           id="email"
+          name="email"
           type="email"
           autoComplete="email"
           value={email}
@@ -72,6 +76,7 @@ function AuthForm({ mode, onSubmit, error, loading }) {
         <label htmlFor="password">Password</label>
         <input
           id="password"
+          name="password"
           type="password"
           autoComplete={isSignup ? 'new-password' : 'current-password'}
           value={password}
